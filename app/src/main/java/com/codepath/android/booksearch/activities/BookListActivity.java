@@ -1,5 +1,6 @@
 package com.codepath.android.booksearch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,12 +21,15 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
 import okhttp3.Headers;
 
 import androidx.appcompat.widget.SearchView;
+
+import org.parceler.Parcels;
 
 
 public class BookListActivity extends AppCompatActivity {
@@ -53,9 +57,15 @@ public class BookListActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
 
                 // Handle item click here:
-                // Create Intent to start BookDetailActivity
-                // Get Book at the given position
-                // Pass the book into details activity using extras
+                if (position != RecyclerView.NO_POSITION) {
+                    // Get Book at the given position
+                    Book book = abooks.get(position);
+                    // Create Intent to start BookDetailActivity
+                    Intent intent = new Intent(BookListActivity.this, BookDetailActivity.class);
+                    // Pass the book into details activity using extras
+                    intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
+                    BookListActivity.this.startActivity(intent);
+                }
             }
         });
 
@@ -64,6 +74,9 @@ public class BookListActivity extends AppCompatActivity {
 
         // Set layout manager to position the items
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
+
+        // Add a query to have this search result load on first launch of the app
+        // fetchBooks("Oscar Wilde");
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results

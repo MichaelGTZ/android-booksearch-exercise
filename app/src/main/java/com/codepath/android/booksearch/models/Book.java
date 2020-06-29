@@ -8,10 +8,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Book {
     private String openLibraryId;
     private String author;
     private String title;
+    private String publishers;
+    private String publishDate;
 
     public String getOpenLibraryId() {
         return openLibraryId;
@@ -23,6 +28,14 @@ public class Book {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getPublishers() {
+        return publishers;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
     }
 
     // Get book cover from covers API
@@ -44,6 +57,8 @@ public class Book {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.publishers = jsonObject.has("publishers") ? jsonObject.getString("publishers"): "";
+            book.publishDate = jsonObject.has("publish_date") ? jsonObject.getString("publish_date"): "";
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
