@@ -30,9 +30,6 @@ import okhttp3.Headers;
 
 import androidx.appcompat.widget.SearchView;
 
-import org.parceler.Parcels;
-
-
 public class BookListActivity extends AppCompatActivity {
     private RecyclerView rvBooks;
     private BookAdapter bookAdapter;
