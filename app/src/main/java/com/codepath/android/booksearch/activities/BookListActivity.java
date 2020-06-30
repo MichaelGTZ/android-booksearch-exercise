@@ -36,6 +36,8 @@ public class BookListActivity extends AppCompatActivity {
     private BookClient client;
     private ArrayList<Book> abooks;
 
+    MenuItem actionProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +109,7 @@ public class BookListActivity extends AppCompatActivity {
                             abooks.add(book); // add book through the adapter
                         }
                         bookAdapter.notifyDataSetChanged();
+                        hideProgressBar();
                     }
                 } catch (JSONException e) {
                     // Invalid JSON format, show appropriate error.
@@ -135,6 +138,7 @@ public class BookListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                showProgressBar();
                 // perform query here
                 fetchBooks(query);
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
@@ -153,6 +157,14 @@ public class BookListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        actionProgress = menu.findItem(R.id.ActionProgress);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -165,5 +177,15 @@ public class BookListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        actionProgress.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        actionProgress.setVisible(false);
     }
 }
