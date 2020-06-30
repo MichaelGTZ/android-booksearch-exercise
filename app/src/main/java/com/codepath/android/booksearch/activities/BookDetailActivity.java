@@ -57,7 +57,7 @@ public class BookDetailActivity extends AppCompatActivity {
         tvPublisherDate.setText(book.getPublishDate());
 
         // Change title of action bar
-        getSupportActionBar().setTitle(book.getTitle());
+        //getSupportActionBar().setTitle(book.getTitle());
     }
 
 
